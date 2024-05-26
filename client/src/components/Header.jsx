@@ -6,7 +6,7 @@ const Header = () => {
     <header className=" bg-transparent ">
       <div className="flex justify-between items-center max-w-6xl mx-auto p-3">
         <Link to="/">
-          <h1 className="font-bold text-sm sm:text-2xl flex flex-wrap ">
+          <h1 className="font-bold text-lg sm:text-2xl flex flex-wrap ">
             <span className="text-slate-500">Estate</span>
             <span className="text-slate-700">Ease</span>
           </h1>
