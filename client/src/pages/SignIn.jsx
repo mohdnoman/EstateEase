@@ -2,7 +2,7 @@ import React from 'react'
 
 const SignIn = () => {
   return (
-    <div>SignIn</div>
+    <div className='min-h-[100vh] '>SignIn</div>
   )
 }
 
