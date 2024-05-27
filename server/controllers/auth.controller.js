@@ -28,7 +28,21 @@ const signUp = async (req, res, next) => {
             return res.status(500).json({ message: "Error while creating user!!!" });
         }
 
-        return res.status(200).json({ message: "User created successfully" });
+        // generate access and refresh token
+        const access_token = jwt.sign({ id: newUser._id }, process.env.JWT_KEY, {
+            expiresIn: "1d"
+        });
+
+        const refresh_token = jwt.sign({ id: newUser._id }, process.env.JWT_KEY, {
+            expiresIn: "7d"
+        });
+
+        const cookieOptions = {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+        };
+
+        return res.cookie("access_token", access_token, cookieOptions).cookie("refresh_token", refresh_token, cookieOptions).status(200).json({ message: "User created successfully" });
     } catch (error) {
         next(error);
         return res.status(500).json({ message: "Server error" });
