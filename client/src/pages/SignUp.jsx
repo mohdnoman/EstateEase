@@ -34,7 +34,7 @@ const SignUp = () => {
         [e.target.id]: "",
       });
       setError(null);
-      navigate("/sign-in");
+      navigate("/");
     } catch (error) {
       setError(error.message);
     } finally {
