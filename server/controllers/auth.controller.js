@@ -1,5 +1,7 @@
 import User from "../models/user.model.js";
 import bcrypt from "bcrypt";
+import { errorHandler } from "../utils/error.js";
+import jwt from "jsonwebtoken"
 
 const signUp = async (req, res, next) => {
     const { username, email, password } = req.body;
@@ -33,6 +35,57 @@ const signUp = async (req, res, next) => {
     }
 };
 
+
+const signIn = async (req, res, next) => {
+    const { username, password } = req.body;
+
+    try {
+        if (!username || !password) {
+            return res.status(400).json({ message: "Username and password are required" });
+        }
+
+        const validUser = await User.findOne({ username });
+
+        if (!validUser) {
+            return next(errorHandler(404, "User not found"));
+        }
+
+        const validPassword = await bcrypt.compare(password, validUser?.password);
+
+
+        if (!validPassword) {
+            return next(errorHandler(401, "Wrong credentials"));
+        }
+
+        const access_token = jwt.sign({ id: validUser._id }, process.env.JWT_KEY, {
+            expiresIn: "1d"
+        });
+
+        const refresh_token = jwt.sign({ id: validUser._id }, process.env.JWT_KEY, {
+            expiresIn: "7d"
+        });
+
+        const cookieOptions = {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+        };
+
+
+        const { password: pass, userWithoutPassword } = validUser
+
+
+        res.cookie("access_token", access_token, cookieOptions).cookie("refresh_token", refresh_token, cookieOptions).status(200).json({
+            success: true,
+            user: userWithoutPassword,
+            access_token: access_token
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+
 export {
-    signUp
+    signUp,
+    signIn
 };
