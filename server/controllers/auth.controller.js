@@ -85,7 +85,7 @@ const signIn = async (req, res, next) => {
         };
 
 
-        const { password: pass, userWithoutPassword } = validUser
+        const { password: pass, ...userWithoutPassword } = validUser._doc
 
 
         res.cookie("access_token", access_token, cookieOptions).cookie("refresh_token", refresh_token, cookieOptions).status(200).json({
@@ -98,8 +98,73 @@ const signIn = async (req, res, next) => {
     }
 };
 
+const google = async (req, res, next) => {
+    try {
+        //check if user exists
+        const user = await User.findOne({ email: req.body.email })
+
+        // If user exists register user
+        if (user) {
+            const access_token = jwt.sign({ id: user._id }, process.env.JWT_KEY, {
+                expiresIn: "1d"
+            });
+
+            const refresh_token = jwt.sign({ id: user._id }, process.env.JWT_KEY, {
+                expiresIn: "7d"
+            });
+
+            const cookieOptions = {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === "production",
+            };
+
+
+            const { password, ...userWithoutPassword } = user._doc
+
+
+            res.cookie("access_token", access_token, cookieOptions).cookie("refresh_token", refresh_token, cookieOptions).status(200).json({
+                success: true,
+                user: userWithoutPassword,
+                access_token: access_token
+            });
+            // If user dosen't exist create user
+        } else {
+            const generatedPassword = Math.random().toString(36).slice(-8) + Math.random().toString(36).slice(-8)
+            const hashedPassword = bcrypt.hash(generatedPassword, 10)
+            const username = req.body.name.split(" ").join("").toLowerCase() + Math.random().toString(36).slice(-8)
+            const newUser = new User({ username: username, email: req.body.email, password: hashedPassword, profile: req.body.profile })
+
+            const access_token = jwt.sign({ id: newUser._id }, process.env.JWT_KEY, {
+                expiresIn: "1d"
+            });
+
+            const refresh_token = jwt.sign({ id: newUser._id }, process.env.JWT_KEY, {
+                expiresIn: "7d"
+            });
+
+            const cookieOptions = {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === "production",
+            };
+
+
+            const { password, ...userWithoutPassword } = newUser._doc
+
+
+            res.cookie("access_token", access_token, cookieOptions).cookie("refresh_token", refresh_token, cookieOptions).status(200).json({
+                success: true,
+                user: userWithoutPassword,
+                access_token: access_token
+            });
+        }
+
+    } catch (error) {
+        next(error);
+    }
+}
 
 export {
     signUp,
-    signIn
+    signIn,
+    google
 };
