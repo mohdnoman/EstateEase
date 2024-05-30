@@ -98,6 +98,17 @@ const signIn = async (req, res, next) => {
     }
 };
 
+const signOut = async (_, res, next) => {
+    try {
+        res.clearCookie("access_token");
+        res.clearCookie("refresh_token");
+        res.status(200).json({ message: "user has been signed out." });
+
+    } catch (error) {
+        next(error);
+    }
+}
+
 const google = async (req, res, next) => {
     try {
         // Check if user exists
@@ -179,5 +190,6 @@ const google = async (req, res, next) => {
 export {
     signUp,
     signIn,
+    signOut,
     google
 };

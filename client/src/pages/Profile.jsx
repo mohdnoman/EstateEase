@@ -14,9 +14,11 @@ import {
   deleteUserStart,
   deleteUserFailure,
   deleteUserSuccess,
+  signOutStart,
+  signOutFailure,
+  signOutSuccess,
 } from "../redux/user/userSlice.js";
 import { useDispatch } from "react-redux";
-import User from "../../../server/models/user.model.js";
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -118,6 +120,23 @@ const Profile = () => {
     }
   };
 
+  const handleSignOut = async () => {
+    try {
+      dispatch(signOutStart());
+
+      const res = await fetch(`/api/auth/signout`);
+      const data = await res.json();
+
+      if (data.success === false) {
+        dispatch(signOutFailure(data.message));
+        return;
+      }
+      dispatch(signOutSuccess(data));
+    } catch (error) {
+      dispatch(signOutFailure(error.message));
+    }
+  };
+
   return (
     <div className="min-h-[100vh] max-w-lg mx-auto">
       <p className="text-3xl font-semibold text-center my-7">Profile</p>
@@ -187,7 +206,9 @@ const Profile = () => {
         >
           Delete Account
         </span>
-        <span className="text-red-700 cursor-pointer">Sign Out</span>
+        <span onClick={handleSignOut} className="text-red-700 cursor-pointer">
+          Sign Out
+        </span>
       </div>
     </div>
   );
