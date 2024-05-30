@@ -60,7 +60,7 @@ const SignIn = () => {
           placeholder="Username"
           className="border p-3 rounded-lg shadow-md"
           id="username"
-          value={formData.username || ""}
+          defaultValue={formData.username}
           onChange={handleChange}
           required
         />
@@ -70,7 +70,7 @@ const SignIn = () => {
           placeholder="Password"
           className="border p-3 rounded-lg shadow-md"
           id="password"
-          value={formData.password || ""}
+          defaultValue={formData.password}
           onChange={handleChange}
           required
         />
