@@ -19,6 +19,7 @@ import {
   signOutSuccess,
 } from "../redux/user/userSlice.js";
 import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -139,7 +140,7 @@ const Profile = () => {
 
   return (
     <div className="min-h-[100vh] max-w-lg mx-auto">
-      <p className="text-3xl font-semibold text-center my-7">Profile</p>
+      <p className="text-3xl font-semibold text-center my-7 text-slate-500">Profile</p>
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <input
           onChange={(e) => setFile(e.target.files[0])}
@@ -195,9 +196,12 @@ const Profile = () => {
           Update
         </button>
 
-        <button className="border bg-green-700 text-white p-3 rounded-lg shadow-md uppercase hover:opacity-95 disabled:opacity-80">
+        <Link
+          to={"/create-listing"}
+          className="border bg-green-700 text-white p-3 rounded-lg shadow-md uppercase hover:opacity-95 disabled:opacity-80 text-center"
+        >
           Create Listing
-        </button>
+        </Link>
       </form>
       <div className="flex justify-between mt-5">
         <span
