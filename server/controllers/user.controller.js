@@ -1,6 +1,7 @@
 import { errorHandler } from "../utils/error.js";
 import bcrypt from "bcrypt";
 import User from "../models/user.model.js";
+import { Listing } from "../models/listing.model.js"
 
 const updateUserInfo = async (req, res, next) => {
     try {
@@ -60,8 +61,25 @@ const deleteUser = async (req, res, next) => {
     }
 }
 
+const getUserListings = async (req, res, next) => {
+
+    if (req.user.id === req.params.id) {
+        try {
+            const listings = await Listing.find({ userRef: req.user.id })
+
+            res.status(200).json(listings)
+
+        } catch (error) {
+            next(errorHandler(400, error.message));
+        }
+    } else {
+        next(errorHandler(400, `Error fetching listings: ${error.message}`));
+    }
+}
+
 
 export {
     updateUserInfo,
-    deleteUser
+    deleteUser,
+    getUserListings
 };
