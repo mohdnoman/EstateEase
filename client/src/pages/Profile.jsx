@@ -29,6 +29,9 @@ const Profile = () => {
   const [fileUploadError, setFileUploadError] = useState(null);
   const { currentUser } = useSelector((state) => state.user);
   const [formData, setFormData] = useState({ ...currentUser });
+  const [updateSuccess, setUpdateSuccess] = useState(false);
+  const [showListingsError, setShowListingsError] = useState(false);
+  const [userListings, setUserListings] = useState([]);
 
   const handleFileUpload = (file) => {
     const storage = getStorage(app);
@@ -138,9 +141,26 @@ const Profile = () => {
     }
   };
 
+  const handleShowListings = async () => {
+    try {
+      setShowListingsError(false);
+      const res = await fetch(`/api/user/listings/${currentUser._id}`);
+      const data = await res.json();
+      if (data.success === false) {
+        showListingsError(true);
+        return;
+      }
+      setUserListings(data);
+    } catch (error) {
+      setShowListingsError(true);
+    }
+  };
+
   return (
-    <div className="min-h-[100vh] max-w-lg mx-auto">
-      <p className="text-3xl font-semibold text-center my-7 text-slate-500">Profile</p>
+    <div className="min-h-[100vh] max-w-lg mx-auto p-2">
+      <p className="text-3xl font-semibold text-center my-7 text-slate-500">
+        Profile
+      </p>
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <input
           onChange={(e) => setFile(e.target.files[0])}
@@ -214,6 +234,53 @@ const Profile = () => {
           Sign Out
         </span>
       </div>
+      {/* <p className='text-red-700 mt-5'>{error ? error : ''}</p> */}
+      <p className="text-green-700 mt-5">
+        {updateSuccess ? "User is updated successfully!" : ""}
+      </p>
+      <button onClick={handleShowListings} className="text-green-700 w-full">
+        Show Listings
+      </button>
+      <p className="text-red-700 mt-5">
+        {showListingsError ? "Error showing listing." : ""}
+      </p>
+      {userListings && userListings.length > 0 && (
+        <div className="flex flex-col">
+          <p className="text-center my-7 text-2xl font-semibold">
+            Your Listing's
+          </p>
+          {userListings.map((listing) => (
+            <div
+              key={listing._id}
+              className="flex justify-between p-3  border-2 border-gray-300 items-center rounded-lg m-2"
+            >
+              <div className="flex gap-4 justify-center items-center">
+                <Link to={`/listing/${listing._id}`}>
+                  <img
+                    height={40}
+                    width={40}
+                    src={listing.imageUrls[0]}
+                    alt="listing image"
+                    className=" rounded-md"
+                  />
+                </Link>
+                <Link to={`/listing/${listing._id}`}>
+                  <p className=" font-semibold text-black">{listing.name}</p>
+                </Link>
+              </div>
+
+              <div className="flex flex-col gap-2">
+                <button type="button" className="uppercase text-red-600">
+                  Delete
+                </button>
+                <button type="button" className="uppercase text-green-600">
+                  Update
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
