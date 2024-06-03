@@ -261,7 +261,7 @@ const Profile = () => {
       <p className="text-red-700 mt-5">
         {showListingsError ? "Error showing listing." : ""}
       </p>
-      
+
       {userListings && userListings.length > 0 && (
         <div className="flex flex-col">
           <p className="text-center my-7 text-2xl font-semibold">
@@ -295,9 +295,11 @@ const Profile = () => {
                 >
                   Delete
                 </button>
-                <button type="button" className="uppercase text-green-600">
-                  Update
-                </button>
+                <Link to={`/update-listing/${listing._id}`}>
+                  <button type="button" className="uppercase text-green-600">
+                    Update
+                  </button>
+                </Link>
               </div>
             </div>
           ))}
