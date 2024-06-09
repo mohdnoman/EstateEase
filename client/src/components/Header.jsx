@@ -25,7 +25,7 @@ const Header = () => {
   }, [window.location.search]);
 
   return (
-    <header className=" bg-transparent ">
+    <header className=" bg-transparent p-4">
       <div className="flex justify-between items-center max-w-6xl mx-auto p-3">
         <Link to="/">
           <h1 className="font-bold text-xl sm:text-3xl flex flex-wrap ">
@@ -66,7 +66,7 @@ const Header = () => {
           <Link to="/profile">
             {currentUser ? (
               <img
-                className="rounded-full h-7 w-7 object-cover"
+                className="rounded-full h-7 w-7 object-cover hover:scale-105"
                 src={ currentUser.profile}
                 alt="profile"
               />
