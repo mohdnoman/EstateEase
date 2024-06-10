@@ -25,7 +25,7 @@ const Header = () => {
   }, [window.location.search]);
 
   return (
-    <header className=" bg-transparent p-4">
+    <header className=" bg-transparent  p-4">
       <div className="flex justify-between items-center max-w-6xl mx-auto p-3">
         <Link to="/">
           <h1 className="font-bold text-xl sm:text-3xl flex flex-wrap ">
@@ -35,7 +35,7 @@ const Header = () => {
         </Link>
         <form
           onSubmit={handleSubmit}
-          className="bg-slate-100 p-3 rounded-lg flex items-center shadow-md"
+          className="bg-slate-100 p-3 rounded-lg flex items-center shadow-md hover:shadow-lg"
         >
           <input
             name="search"
@@ -52,13 +52,13 @@ const Header = () => {
 
         <ul className="flex gap-4">
           <Link to="/">
-            <li className="hidden sm:inline text-slate-700 hover:underline font-semibold">
+            <li className="hidden sm:inline text-slate-700 hover:text-slate-500 text-lg font-semibold">
               Home
             </li>
           </Link>
 
           <Link to="/about">
-            <li className="hidden sm:inline text-slate-700 hover:underline font-semibold">
+            <li className="hidden sm:inline text-slate-700 hover:text-slate-500 text-lg font-semibold">
               About
             </li>
           </Link>

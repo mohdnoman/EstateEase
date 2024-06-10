@@ -20,6 +20,7 @@ import {
 } from "../redux/user/userSlice.js";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { FaArrowDown } from "react-icons/fa";
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -255,8 +256,9 @@ const Profile = () => {
       <p className="text-green-700 mt-5">
         {updateSuccess ? "User is updated successfully!" : ""}
       </p>
-      <button onClick={handleShowListings} className="text-green-700 w-full">
+      <button onClick={handleShowListings} className="text-green-700 w-full flex items-center justify-center gap-4 text-lg font-semibold">
         Show Listings
+      <FaArrowDown />
       </button>
       <p className="text-red-700 mt-5">
         {showListingsError ? "Error showing listing." : ""}
@@ -275,8 +277,8 @@ const Profile = () => {
               <div className="flex gap-4 justify-center items-center">
                 <Link to={`/listing/${listing._id}`}>
                   <img
-                    height={40}
-                    width={40}
+                    height={50}
+                    width={60}
                     src={listing.imageUrls[0]}
                     alt="listing image"
                     className=" rounded-md"
