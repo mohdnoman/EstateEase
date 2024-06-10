@@ -97,7 +97,7 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    if (offerListings.length > 0) {
+    if (offerListings.length > 0 && heroRef.current) {
       const heroImages = gsap.utils.toArray(".swiper-slide");
 
       gsap.to(heroImages, {
@@ -105,7 +105,7 @@ const Home = () => {
         ease: "none",
         scrollTrigger: {
           trigger: heroRef.current,
-          start: "top",
+          start: "top top",
           pin: true,
           scrub: 1,
           snap: 1 / (heroImages.length - 1),
@@ -140,8 +140,8 @@ const Home = () => {
       <div ref={heroRef} className="w-full overflow-hidden">
         <Swiper navigation className="pt-8 my-auto w-full">
           {offerListings &&
-            offerListings.length > 0 &&
-            offerListings.map((listing) => (
+            offerListings.length > 0 &&    
+            offerListings.slice(0,3).map((listing) => (
               <SwiperSlide key={listing._id}>
                 <div
                   style={{
