@@ -5,19 +5,11 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-<<<<<<< HEAD
   "dev": "nodemon index.js",
   "start": "node index.js",
   "build": "npm install && npm --prefix ../client install && npm --prefix ../client run build",
   "postinstall": "npm --prefix ../client install vite"
 },
-=======
-    "dev": "nodemon index.js",
-    "start": "node index.js",
-    "build": "npm install && npm install --prefix ../client && npm run build --prefix ../client",
-    "postinstall": "npm install vite --prefix ../client"
-  },
->>>>>>> 2f70af22ffb46e24743e3bc0b09f26707779277a
   "keywords": [],
   "author": "",
   "license": "ISC",
