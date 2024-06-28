@@ -2,7 +2,7 @@
 
 EstateEase is a web application that serves as a marketplace for real estate, featuring a modern and intuitive user interface. It connects buyers, sellers, and agents, providing a seamless platform for real estate transactions and interactions.
 
-![EstateEase Demo](https://github.com/EstateEase/client/website-prev?raw=true)
+![EstateEase Demo](https://github.com/mohdnoman/EstateEase/blob/main/client/public/website-prev.jpeg?raw=true)
 
 ## Features
 
